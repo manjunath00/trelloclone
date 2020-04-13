@@ -1,0 +1,18 @@
+/* GET Requests */
+export const GET_ALL_BOARDS = "GET_ALL_BOARDS";
+export const GET_ALL_LISTS = "GET_ALL_LISTS";
+export const GET_ALL_CARDS = "GET_ALL_CARDS";
+export const GET_ALL_CHECKLISTS = "GET_ALL_CHECKLISTS";
+export const GET_ALL_CHECKLISTITEMS = "GET_ALL_CHECKLISTITEMS";
+
+/* POST Requests */
+export const ADD_A_LIST = "ADD_A_LIST";
+export const ADD_A_CARD = "ADD_A_CARD";
+export const ADD_A_CHECKLIST = "ADD_A_CHECKLIST";
+export const ADD_A_CHECKLISTITEM = "ADD_A_CHECKLISTITEM";
+
+/* PUT Requests */
+export const UPDATE_A_LIST = "UPDATE_A_LIST";
+export const UPDATE_A_CARD = "UPDATE_A_CARD";
+export const UPDATE_A_CHECKLIST = "UPDATE_A_CHECKLIST";
+export const UPDATE_A_CHECKLISTITEM = "UPDATE_A_CHECKLISTITEM";
