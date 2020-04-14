@@ -1,26 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 
-function App() {
+import Dashboard from "./components/Dashboard";
+import Lists from "./components/Lists";
+import CardModal from "./components/CardModal";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route exact={true} path="/" component={Dashboard} />
+        <Route exact={true} path="/b/:id/:name" component={Lists} />
+        <Route exact={false} path="/c/:id/:name" component={CardModal} />
+      </Switch>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
