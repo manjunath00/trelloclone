@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 
-import urls from "../apis/getUrls";
-import trello from "../apis/trelloapi";
-import List from "./common/List";
+import urls from "../../apis/getUrls";
+import trello from "../../apis/trelloapi";
+import List from "./List";
 
 function Lists(props) {
   const boardId = props.match.params.id;

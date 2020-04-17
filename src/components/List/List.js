@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 
 import urls from "../../apis/getUrls";
 import trello from "../../apis/trelloapi";
-import Card from "./Card";
+import Card from "../Card/Card";
 
 function List(props) {
   const [listId, setListId] = useState(props.id);
