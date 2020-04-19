@@ -5,7 +5,7 @@ import history from "../../history";
 
 function Modal(props) {
   return ReactDOM.createPortal(
-    <div className="modal" onClick={() => history.push("/b")}>
+    <div className="modal" onClick={() => history.goBack()}>
       <div className="modal-body" onClick={(e) => e.stopPropagation()}>
         {props.children}
       </div>
