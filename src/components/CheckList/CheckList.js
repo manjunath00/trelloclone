@@ -4,27 +4,56 @@ import urls from "../../apis/getUrls";
 import trello from "../../apis/trelloapi";
 
 import CheckListItem from "./CheckListItem";
-import Toggler from "./Toggler";
+import Toggler from "../common/Toggler";
 
 function CheckList(props) {
   const [checkListItems, setCheckListItems] = useState([]);
+  const [checkListName, setCheckListName] = useState();
+  const [isUpdated, setIsUpdated] = useState(null);
+  const checkListId = props.checkListId;
+  const cardId = props.idCard;
 
   useEffect(() => {
-    getAllItemsInCheckList(props.checkListId);
-  }, []);
+    getAllItemsInCheckList(checkListId);
+  }, [isUpdated, checkListId]);
+
   const getAllItemsInCheckList = async (id) => {
-    const response = await await trello.get(urls.getCheckLists(id));
+    const response = await trello.get(urls.getCheckLists(id));
+    setIsUpdated(true);
+    setCheckListName(response.data.name);
     setCheckListItems(response.data.checkItems);
   };
-  console.log(checkListItems);
+
+  const addACheckListItem = async (checklistName) => {
+    const body = {
+      id: checkListId,
+      name: checklistName,
+    };
+    const response = await trello.post(urls.postACheckItem(checkListId), body);
+    setIsUpdated(false);
+  };
+
+  const deleteCheckList = async (checkListId) => {
+    // console.log(checkListId)
+    const response = await trello.delete(urls.deleteACheckList(checkListId));
+    // setIsUpdated(false);
+    console.log(response)
+  }
 
   return (
     <div>
-      <div>CheckList</div>
+      <div>
+        <div>
+          <span>{checkListName}</span>
+          <span>
+            <button onClick={() => deleteCheckList(checkListId)}>x</button>
+          </span>
+        </div>
+      </div>
       {checkListItems.map((item) => (
-        <CheckListItem todo={item} key={item.id}/>
+        <CheckListItem todo={item} key={item.id} idCard={cardId}/>
       ))}
-      <Toggler desc="Add an item"/>
+      <Toggler desc="Add an item" onSubmit={addACheckListItem} />
     </div>
   );
 }
