@@ -5,27 +5,38 @@ import Modal from "../common/Modal";
 import urls from "../../apis/getUrls";
 import trello from "../../apis/trelloapi";
 import CheckList from "../CheckList/CheckList";
+import Toggler from "../common/Toggler";
 
 function CardModal(props) {
-  const cardId = props.match.params.id;
+  // console.log(props)
+
+  const cardId = props.props.match.params.id;
   const [cardDetails, setCardDetails] = useState({});
   const [checkLists, setCheckLists] = useState([]);
+  const [isUpdated, setIsUpdated] = useState(false);
 
-  console.log(cardId);
+  // console.log(cardId);
   useEffect(() => {
     getACard(cardId);
-  }, []);
+  }, [cardId, isUpdated]);
 
   const getACard = async (cardId) => {
     const cardDetails = await trello.get(urls.getAModal(cardId));
     setCardDetails(cardDetails.data);
     setCheckLists(cardDetails.data.idChecklists);
-    // console.log(cardDetails.data.idChecklists);
-    // const checkLists = await trello.get(urls.getCheckLists(cardId))
+    setIsUpdated(true);
   };
-  console.log(cardDetails)
-  console.log(checkLists);
-  // console.log(props.match.params.id);
+
+  const addACheckList = async (checkListName) => {
+    const body = {
+      idCard: cardId,
+      name: checkListName,
+    };
+    const response = await trello.post(urls.postACheckList(), body);
+    setIsUpdated(false);
+    console.log(response);
+  };
+
   return (
     <Modal>
       <div>
@@ -33,8 +44,9 @@ function CardModal(props) {
         <div>Description</div>
         <div>{cardDetails.desc}</div>
         {checkLists.map((item) => (
-          <CheckList key={item} checkListId={item} />
+          <CheckList key={item} checkListId={item} idCard={cardId}/>
         ))}
+        <Toggler desc="Add a Checklist" onSubmit={addACheckList} />
       </div>
     </Modal>
   );
