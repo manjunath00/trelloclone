@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-import urls from "../../apis/getUrls";
-import trello from "../../apis/trelloapi";
+import {
+  getAllCheckitems,
+  createCheckItem,
+  deleteACheckList,
+} from "../../apis/trelloapi";
 
 import CheckListItem from "./CheckListItem";
 import Toggler from "../common/Toggler";
@@ -17,28 +20,24 @@ function CheckList(props) {
     getAllItemsInCheckList(checkListId);
   }, [isUpdated, checkListId]);
 
-  const getAllItemsInCheckList = async (id) => {
-    const response = await trello.get(urls.getCheckLists(id));
+  const getAllItemsInCheckList = async (checkListId) => {
+    const response = await getAllCheckitems(checkListId);
     setIsUpdated(true);
     setCheckListName(response.data.name);
     setCheckListItems(response.data.checkItems);
   };
 
-  const addACheckListItem = async (checklistName) => {
-    const body = {
-      id: checkListId,
-      name: checklistName,
-    };
-    const response = await trello.post(urls.postACheckItem(checkListId), body);
+  const addACheckListItem = async (checkListName) => {
+    const response = await createCheckItem(checkListId, checkListName);
     setIsUpdated(false);
+    return response;
   };
 
   const deleteCheckList = async (checkListId) => {
-    // console.log(checkListId)
-    const response = await trello.delete(urls.deleteACheckList(checkListId));
-    // setIsUpdated(false);
-    console.log(response)
-  }
+    const response = await deleteACheckList(checkListId); 
+    console.log(response);
+    return response;
+  };
 
   return (
     <div>
@@ -51,7 +50,7 @@ function CheckList(props) {
         </div>
       </div>
       {checkListItems.map((item) => (
-        <CheckListItem todo={item} key={item.id} idCard={cardId}/>
+        <CheckListItem todo={item} key={item.id} idCard={cardId} />
       ))}
       <Toggler desc="Add an item" onSubmit={addACheckListItem} />
     </div>

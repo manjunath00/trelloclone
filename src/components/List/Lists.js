@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import urls from "../../apis/getUrls";
-import trello from "../../apis/trelloapi";
+import { getAllLists, createAList } from "../../apis/trello";
 import List from "./List";
 import Toggler from "../common/Toggler";
 
@@ -13,32 +12,19 @@ function Lists(props) {
   const [isUpdated, setIsUpdated] = useState(null);
 
   useEffect(() => {
-    getAllLists(id);
+    getLists(id);
   }, [id, isUpdated]);
 
-  const getAllLists = async (boardId) => {
-    try {
-      const response = await trello.get(urls.getAllLists(boardId));
-      setLists(response.data);
-      setIsUpdated(true);
-    } catch (err) {
-      console.log(err.message);
-    }
+  const getLists = async (boardId) => {
+    const response = await getAllLists(boardId);
+    setLists(response.data);
+    setIsUpdated(true);
   };
 
-  const createAList = async (listName) => {
-    console.log(listName);
-    try {
-      const body = {
-        idBoard: boardId,
-        name: listName,
-      };
-      const response = await trello.post(urls.postAList(), body);
-      // console.log(response)
-      setIsUpdated(false);
-    } catch (err) {
-      console.log(err.message);
-    }
+  const newList = async (boardId, listName) => {
+    const response = await createAList(boardId, listName);
+    setIsUpdated(false);
+    return response;
   };
 
   return (
@@ -46,7 +32,7 @@ function Lists(props) {
       {lists.map((list) => (
         <List list={list} key={list.id} id={list.id} />
       ))}
-      <Toggler desc="Create New List" onSubmit={createAList} />
+      <Toggler desc="Create New List" onSubmit={newList} />
     </div>
   );
 }

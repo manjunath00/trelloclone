@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; 
 
-import urls from "../../apis/getUrls";
-import trello from "../../apis/trelloapi";
+import { getAllCards, createACard } from "../../apis/trello";
 import Card from "../Card/Card";
 import Toggler from "../common/Toggler";
 
@@ -11,26 +10,20 @@ function List(props) {
   const [newCard, setNewCard] = useState(false);
 
   useEffect(() => {
-    getAllCards(listId);
+    allCards(listId);
   }, [listId, newCard]);
 
-  const getAllCards = async (listId) => {
-    const response = await trello.get(urls.getAllCards(listId));
-    // console.log("Response cards ", response);
+  const allCards = async (listId) => {
+    const response = await getAllCards(listId);
     setCards(response.data);
-    return response.data;
+    return response;
   };
 
   const addANewCard = async (cardName) => {
-    // console.log(cardName)
-    const body = {
-      idList: listId,
-      name: cardName
-    }
-    const response = await trello.post(urls.postACard(), body);
+    const response = await createACard(listId, cardName);
     setNewCard(true);
-    // console.log(response)
-  }
+    return response;
+  };
 
   return (
     <div>
@@ -43,7 +36,7 @@ function List(props) {
         ))}
       </div>
 
-      <Toggler desc={"Create a Card"} onSubmit={addANewCard}/>
+      <Toggler desc={"Create a Card"} onSubmit={addANewCard} />
     </div>
   );
 }

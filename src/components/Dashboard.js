@@ -1,18 +1,17 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
-import trello from "../apis/trelloapi";
 import Board from "./common/Board";
-import urls from "../apis/getUrls";
+import { getAllBoards } from "../apis/trello";
 
 const Dashboard = () => {
   const [boards, setBoards] = useState([]);
 
   useEffect(() => {
-    getAllBoards();
+    Boards();
   }, []);
 
-  const getAllBoards = async () => {
-    const response = await trello.get(urls.getAllBoards());
+  const Boards = async () => {
+    const response = await getAllBoards();
     setBoards(response.data);
   };
 
