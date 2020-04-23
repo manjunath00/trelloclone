@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL: "https://api.trello.com"
-});
+  baseURL: "https://api.trello.com",
+}); 

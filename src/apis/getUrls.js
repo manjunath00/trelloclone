@@ -26,7 +26,9 @@ const urls = {
   // PUT requests
   toggleACheckItem: (idCard, idCheckItem, state) =>
     `/1/card/${idCard}/checkItem/${idCheckItem}?state=${state}&${apiAccess}`,
-    // PUT /1/cards/{id}/checkItem/{idCheckItem}
+  deleteACheckItem: (checkListId, idCheckItem) =>
+    `/1/checklists/${checkListId}/checkItems/${idCheckItem}?${apiAccess}`,
 };
 
 export default urls;
+

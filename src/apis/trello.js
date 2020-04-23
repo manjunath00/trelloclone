@@ -75,3 +75,17 @@ export const createCheckItem = async (checkListId, checkItemName) => {
   const response = await trello.post(urls.postACheckItem(checkListId), body);
   return response;
 };
+
+export const toggleCheckItem = async (idCard, idCheckItem, isChecked) => {
+  const response = await trello.put(
+    urls.toggleACheckItem(idCard, idCheckItem, isChecked)
+  );
+  return response;
+};
+
+export const deleteCheckItem = async (checkListId, idCheckItem) => {
+  const response = await trello.delete(
+    urls.deleteACheckItem(checkListId, idCheckItem)
+  );
+  return response;
+};
