@@ -1,20 +1,26 @@
 import React, { useState } from "react";
 
 const Toggler = (props) => {
+  const newValue = props.setNew ? "" : props.desc;
   const [isClicked, setIsClicked] = useState(false);
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState(newValue);
   const [desc, setDesc] = useState(props.desc);
 
-  const onSubmit=() => {
+  const onSubmit = () => {
     props.onSubmit(value);
-    setValue("")
-  }
+    setValue("");
+  };
 
   const renderJSX = () => {
     if (isClicked) {
       return (
-        <div>
-          <input type="text" onChange={(e) => setValue(e.target.value)} autoFocus />
+        <>
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            autoFocus
+          />
           <div onClick={() => setIsClicked(!isClicked)}>
             <span>
               <button onClick={() => onSubmit()}>save</button>
@@ -23,10 +29,10 @@ const Toggler = (props) => {
               <button>X</button>
             </span>
           </div>
-        </div>
+        </>
       );
     } else {
-      return <div onClick={() => setIsClicked(!isClicked)}>{desc}</div>;
+      return <span onClick={() => setIsClicked(!isClicked)}>{desc}</span>;
     }
   };
 
